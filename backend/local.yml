@@ -1,0 +1,68 @@
+version: "3"
+
+volumes:
+  consultant_matcher_local_postgres_data: {}
+  consultant_matcher_local_postgres_data_backups: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: consultant_matcher_local_django
+    container_name: consultant_matcher_local_django
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "6000:8000"
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: consultant_matcher_production_postgres
+    container_name: consultant_matcher_local_postgres
+    volumes:
+      - consultant_matcher_local_postgres_data:/var/lib/postgresql/data
+      - consultant_matcher_local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
+
+  redis:
+    image: docker.io/redis:6
+    container_name: consultant_matcher_local_redis
+
+  celeryworker:
+    <<: *django
+    image: consultant_matcher_local_celeryworker
+    container_name: consultant_matcher_local_celeryworker
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *django
+    image: consultant_matcher_local_celerybeat
+    container_name: consultant_matcher_local_celerybeat
+    depends_on:
+      - redis
+      - postgres
+    ports: []
+    command: /start-celerybeat
+
+  flower:
+    <<: *django
+    image: consultant_matcher_local_flower
+    container_name: consultant_matcher_local_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower
