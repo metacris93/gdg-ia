@@ -3,10 +3,12 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.routers import SimpleRouter
 
 from consultant_matcher.users.api.views import UserViewSet
+from consultant_matcher.consultants.api.views import ConsultantViewSet
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 
 router.register("users", UserViewSet)
+router.register("consultants", ConsultantViewSet)
 
 
 app_name = "api"
