@@ -1,4 +1,5 @@
 from django.db import models
+from pgvector.django import VectorField
 
 class Consultant(models.Model):
     SENIORITY_CHOICES = [
@@ -44,3 +45,11 @@ class AreaOfInterest(models.Model):
 
     def __str__(self):
         return self.name
+
+class ConsultantEmbedding(models.Model):
+    consultant = models.OneToOneField(Consultant, on_delete=models.CASCADE, related_name='embedding')
+    content = models.TextField(blank=True)
+    embedding = VectorField(dimensions=3, blank=True)
+
+    def __str__(self):
+        return f"Embedding for {self.consultant.name}"
