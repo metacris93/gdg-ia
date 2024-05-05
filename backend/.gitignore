@@ -279,3 +279,6 @@ consultant_matcher/media/
 .env
 .envs/*
 !.envs/.local/
+
+# user-generated files
+developers.csv
