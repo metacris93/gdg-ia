@@ -4,6 +4,13 @@ from django.db import migrations, models
 import django.db.models.deletion
 import pgvector.django
 
+def forwards(apps, schema_editor):
+    with schema_editor.connection.cursor() as cursor:
+        cursor.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+
+def backwards(apps, schema_editor):
+    pass
+
 
 class Migration(migrations.Migration):
 
@@ -13,6 +20,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunPython(forwards, backwards),
         migrations.CreateModel(
             name='AreaOfInterest',
             fields=[

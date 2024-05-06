@@ -1,5 +1,9 @@
 import csv
+import sys
 import random
+from faker import Faker
+
+number_of_devs = int(sys.argv[1]) if len(sys.argv) > 1 else 100
 
 seniorities = ['senior', 'junior', 'consultant']
 
@@ -44,18 +48,31 @@ def generate_soft_skills():
     num_skills = random.randint(1, len(soft_skills))
     return tuple(random.sample(soft_skills, num_skills))
 
+def generate_industry_names():
+    fake = Faker()
+
+    industries = [
+        'Agriculture', 'Automobiles', 'Technology', 'Healthcare', 'Finance',
+        'Real Estate', 'Manufacturing', 'Retail', 'Energy', 'Telecommunications',
+        'Transportation', 'Education', 'Food Services', 'Entertainment'
+    ]
+
+    random_industries = tuple(fake.random.choice(industries) for _ in range(10))
+    return random_industries
+
 def main():
     with open('developers.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow(['seniority', 'soft_skills', 'tech_stack', 'interest'])
+        writer.writerow(['seniority', 'soft_skills', 'tech_stack', 'interest', 'industries'])
 
-        for _ in range(100):
+        for _ in range(number_of_devs):
             seniority = random.choice(seniorities)
             skills = generate_soft_skills()
             tech_stack = generate_tech_stack()
             interest = generate_interests()
+            industries = generate_industry_names()
 
-            writer.writerow([seniority, skills, tech_stack, interest])
+            writer.writerow([seniority, skills, tech_stack, interest, industries])
 
 if __name__ == '__main__':
     main()
