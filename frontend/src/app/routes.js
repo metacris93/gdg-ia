@@ -7,6 +7,7 @@ import MatxLayout from "./components/MatxLayout/MatxLayout";
 import materialRoutes from "app/views/material-kit/MaterialRoutes";
 import { ConsultantForm } from "./views/addConsultantForm/ConsultantForm";
 import { AiMatch } from "./views/AiMatch/AiMatch";
+import ProjectsDashBoard from "./views/dashBoardProjects/ProjectsDashBoard";
 
 // SESSION PAGES
 const NotFound = Loadable(lazy(() => import("app/views/sessions/NotFound")));
@@ -25,6 +26,7 @@ const routes = [
       // dashboard route
 			{ path: "/AIMatch", element: <AiMatch/>},
 			{ path: "/addConsultant", element: <ConsultantForm/>},
+			{ path: "/dashboard/projects", element: <ProjectsDashBoard/>},
       { path: "/dashboard/default", element: <Analytics />},
       // e-chart route
       { path: "/charts/echarts", element: <AppEchart />}

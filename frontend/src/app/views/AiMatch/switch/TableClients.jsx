@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { rowsClients } from 'fake-db/fakeRows';
+import { rowsClients } from 'fake-db/fakeData';
 import { TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { Fragment } from 'react';
@@ -26,7 +26,7 @@ const columns = [
 const copyRows = [...rowsClients]
 
 // eslint-disable-next-line react/prop-types
-export default function StickyHeadTable({setDisplay, setClient}) {
+export default function StickyHeadTable({setDisplay, setData}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [search, setSearch] = React.useState("")
@@ -73,7 +73,7 @@ export default function StickyHeadTable({setDisplay, setClient}) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}  onClick={() => {setClient(row); setDisplay(2)}}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}  onClick={() => {setData({client: row}); setDisplay(2)}}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (

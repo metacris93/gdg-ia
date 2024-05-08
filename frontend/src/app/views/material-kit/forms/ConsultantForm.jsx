@@ -11,7 +11,7 @@ import {
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-
+import { techs, industries, softSkillsData } from "fake-db/fakeData";
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
   marginBottom: "16px"
@@ -45,8 +45,8 @@ const SimpleForm = () => {
   }, [state.password]);
 
   const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
+    console.log("submitted");
+    console.log(event);
   };
 
   const handleChange = (event) => {
@@ -175,113 +175,3 @@ const SimpleForm = () => {
 
 export default SimpleForm;
 
-const softSkillsData = [
-	{ name: "Effective Communication" },
-	{ name: "Problem Solving" },
-	{ name: "Teamwork" },
-	{ name: "Critical Thinking" },
-	{ name: "Time Management" },
-	{ name: "Adaptability" },
-	{ name: "Creativity" },
-	{ name: "Empathy" },
-	{ name: "Continuous Learning" },
-	{ name: "Leadership" },
-	{ name: "Collaboration" },
-	{ name: "Analytical Thinking" },
-	{ name: "Organization" },
-	{ name: "Decision Making" },
-	{ name: "Active Listening" },
-	{ name: "Resilience" },
-	{ name: "Innovation" },
-	{ name: "Presentation Skills" },
-	{ name: "Self-Discipline" },
-	{ name: "Receiving and Giving Feedback" }
-];
-
-
-const techs = [
-	{ name: "JavaScript" },
-	{ name: "Python" },
-	{ name: "Java" },
-	{ name: "C#" },
-	{ name: "C++" },
-	{ name: "Swift" },
-	{ name: "Kotlin" },
-	{ name: "Go" },
-	{ name: "Ruby" },
-	{ name: "PHP" },
-	{ name: "TypeScript" },
-	{ name: "SQL" },
-	{ name: "HTML" },
-	{ name: "CSS" },
-	{ name: "React" },
-	{ name: "Angular" },
-	{ name: "Vue.js" },
-	{ name: "Node.js" },
-	{ name: "Express.js" },
-	{ name: "Django" },
-	{ name: "Spring" },
-	{ name: "ASP.NET" },
-	{ name: "Ruby on Rails" },
-	{ name: "Laravel" },
-	{ name: "Flask" },
-	{ name: "TensorFlow" },
-	{ name: "PyTorch" },
-	{ name: "Keras" },
-	{ name: "Scikit-learn" },
-	{ name: "Pandas" },
-	{ name: "NumPy" },
-	{ name: "Bootstrap" },
-	{ name: "Tailwind CSS" },
-	{ name: "Sass" },
-	{ name: "jQuery" },
-	{ name: "Redux" },
-	{ name: "Next.js" },
-	{ name: "Gatsby" },
-	{ name: "Electron" },
-	{ name: "Unity" },
-	{ name: "OpenGL" },
-	{ name: "OpenCV" },
-	{ name: "Docker" },
-	{ name: "Kubernetes" },
-	{ name: "Amazon Web Services (AWS)" },
-	{ name: "Google Cloud Platform (GCP)" },
-	{ name: "Microsoft Azure" },
-	{ name: "Firebase" },
-	{ name: "MongoDB" },
-	{ name: "MySQL" },
-	{ name: "PostgreSQL" }
-];
-
-const industries = [
-	{ name: "Information Technology" },
-	{ name: "Finance" },
-	{ name: "Healthcare" },
-	{ name: "Manufacturing" },
-	{ name: "Retail" },
-	{ name: "Automotive" },
-	{ name: "Telecommunications" },
-	{ name: "Hospitality" },
-	{ name: "Education" },
-	{ name: "Entertainment" },
-	{ name: "Agriculture" },
-	{ name: "Construction" },
-	{ name: "Energy" },
-	{ name: "Transportation" },
-	{ name: "Media" },
-	{ name: "Real Estate" },
-	{ name: "Biotechnology" },
-	{ name: "Pharmaceuticals" },
-	{ name: "Aerospace" },
-	{ name: "Government" },
-	{ name: "Non-profit" },
-	{ name: "Consulting" },
-	{ name: "Legal" },
-	{ name: "Insurance" },
-	{ name: "Marketing" },
-	{ name: "Advertising" },
-	{ name: "Logistics" },
-	{ name: "E-commerce" },
-	{ name: "Environmental Services" },
-	{ name: "Human Resources" }
-];
