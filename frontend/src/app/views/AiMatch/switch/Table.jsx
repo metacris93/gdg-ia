@@ -7,37 +7,30 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { useNavigate } from 'react-router-dom';
 import { rowsClients } from 'fake-db/fakeRows';
 import { TextField } from '@mui/material';
 import { useEffect } from 'react';
+import { Fragment } from 'react';
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'Industry', minWidth: 100 },
+  { id: 'industry', label: 'Industry', minWidth: 100 },
   {
-    id: 'population',
-    label: 'Population',
+    id: 'description',
+    label: 'Description',
     minWidth: 170,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toFixed(2),
-  },
+  }
 ];
 
 const copyRows = [...rowsClients]
 
-export default function StickyHeadTable({setDisplay}) {
+// eslint-disable-next-line react/prop-types
+export default function StickyHeadTable({setDisplay, setClient}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [search, setSearch] = React.useState("")
 	const [clients, setClients] = React.useState(copyRows)
-	const navigate = useNavigate()
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -57,7 +50,8 @@ export default function StickyHeadTable({setDisplay}) {
 	}, [search])
 
   return (
-		<Paper sx={{ width: '100%', overflow: 'hidden' }}>
+		<Fragment>
+			<Paper sx={{ width: '100%', overflow: 'hidden' }}>
 			<TextField size='small' variant='filled' label='search' onChange={(e) => setSearch(e.target.value)}/>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -79,7 +73,7 @@ export default function StickyHeadTable({setDisplay}) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}  onClick={() => {navigate(`/AiMatch/${row.name}`); setDisplay(false)}}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}  onClick={() => {setClient(row); setDisplay(2)}}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -106,5 +100,7 @@ export default function StickyHeadTable({setDisplay}) {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
+		</Fragment>
+
   );
 }

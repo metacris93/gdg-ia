@@ -3,7 +3,7 @@ export const navigations = [
 	path: "/dashboard/default",
 	icon: "dashboard",
 	children: [
-			{ name: "Clients", path: "/dashboard/clients"},
+			{ name: "Projects", path: "/dashboard/projects"},
 			{ name: "Consultans", path: "/dashboard/consultants"}
 		]
 	},

@@ -1,14 +1,14 @@
 import { Fragment } from "react"
 import { SimpleCard } from "app/components"
-import ReactVirtualizedTable from "./Table"
 import React from "react"
-import ClientForm from "./clientForm"
+import { SwitchAiMatch } from "./switch/SwitchAiMatch"
 const AiMatch = () => {
-	const [display, setDisplay] = React.useState(true)
+	const [display, setDisplay] = React.useState(1)
+	const [client, setClient] = React.useState({})
 	return(
 		<Fragment>
 			<SimpleCard title="Ai Match">
-				{(display)? <ReactVirtualizedTable setDisplay={setDisplay}/>:<ClientForm/>}
+				<SwitchAiMatch display={display} setDisplay={setDisplay} client={client} setClient={setClient}/>
       </SimpleCard>
 		</Fragment>
 	)
