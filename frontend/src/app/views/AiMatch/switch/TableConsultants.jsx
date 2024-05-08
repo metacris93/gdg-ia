@@ -232,7 +232,6 @@ export default function TableConsultants({data, setData}) {
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
   };
 	useEffect(() => {
@@ -248,7 +247,7 @@ export default function TableConsultants({data, setData}) {
     setPage(0);
   };
 
-  const isSelected = (id) => selected.indexOf(id) !== -1;
+	const isSelected = (row) => selected.includes(row);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -282,13 +281,13 @@ export default function TableConsultants({data, setData}) {
             />
             <TableBody>
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
+                const isItemSelected = isSelected(row);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.id)}
+                    onClick={(event) => handleClick(event, row)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
