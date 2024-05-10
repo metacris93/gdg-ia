@@ -49,7 +49,7 @@ class AreaOfInterest(models.Model):
 class ConsultantEmbedding(models.Model):
     consultant = models.OneToOneField(Consultant, on_delete=models.CASCADE, related_name='embedding')
     content = models.TextField(blank=True)
-    embedding = VectorField(dimensions=3, blank=True)
+    embedding = VectorField(dimensions=768, blank=True)
 
     def __str__(self):
         return f"Embedding for {self.consultant.name}"
