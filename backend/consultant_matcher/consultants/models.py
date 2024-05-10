@@ -17,6 +17,7 @@ class Consultant(models.Model):
     industries = models.ManyToManyField('Industry', related_name='consultants')
     soft_skills = models.ManyToManyField('SoftSkill', related_name='consultants')
     areas_of_interest = models.ManyToManyField('AreaOfInterest', related_name='consultants')
+    team = models.ForeignKey('Team', related_name='consultants', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} - {self.seniority}"
@@ -53,3 +54,20 @@ class ConsultantEmbedding(models.Model):
 
     def __str__(self):
         return f"Embedding for {self.consultant.name}"
+
+class Client(models.Model):
+    name = models.CharField(max_length=100)
+    contact_email = models.EmailField()
+    industry = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Team(models.Model):
+    name = models.CharField(max_length=100)
+    client = models.ForeignKey('Client', related_name='teams', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+
