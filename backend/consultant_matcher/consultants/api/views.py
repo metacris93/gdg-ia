@@ -6,6 +6,7 @@ from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
+from django.http import JsonResponse
 
 from consultant_matcher.consultants.models import Consultant, TechStack, SoftSkill, \
     Industry, AreaOfInterest, ConsultantEmbedding, Client, Team
@@ -35,3 +36,11 @@ class TeamViewSet(viewsets.ModelViewSet):
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+
+    @action(detail=True, methods=['post'])
+    def matches(self, request, pk=None):
+        consultants = Consultant.objects.prefetch_related(
+            'tech_stacks', 'industries', 'soft_skills', 'areas_of_interest'
+        ).all()
+        serializer = ConsultantSerializer(consultants, many=True)
+        return JsonResponse(serializer.data, safe=False)
