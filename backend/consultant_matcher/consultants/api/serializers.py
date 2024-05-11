@@ -56,8 +56,7 @@ class TeamSerializer(serializers.ModelSerializer):
         consultants_data = validated_data.pop('consultants', [])
         team = Team.objects.create(**validated_data)
         for consultant_data in consultants_data:
-            consultant, created = Consultant.objects.get_or_create(**consultant_data)
-            team.consultants.add(consultant)
+            team.consultants.add(consultant_data)
         return team
 
     def update(self, instance, validated_data):
