@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from consultant_matcher.consultants.models import Consultant, TechStack, SoftSkill, Industry, AreaOfInterest
+from consultant_matcher.consultants.models import Consultant, TechStack, SoftSkill, Industry, AreaOfInterest, \
+    Client, Team
+
 
 class TechStackSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,4 +38,17 @@ class ConsultantSerializer(serializers.ModelSerializer[Consultant]):
     extra_kwargs = {
         "url": {"view_name": "api:consultant-detail", "lookup_field": "pk"},
     }
+
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = '__all__'
+
+class TeamSerializer(serializers.ModelSerializer):
+    client = ClientSerializer(read_only=True)
+    consultants = ConsultantSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Team
+        fields = ['id', 'name', 'client', 'consultants']
 
