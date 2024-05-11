@@ -13,8 +13,11 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { currentProjects } from 'fake-db/fakeData';
 import { SimpleCard } from 'app/components';
+import { useEffect } from 'react';
+import { urls } from 'app/func/InstanceAxios';
+import { useState } from 'react';
+import axios from 'axios';
 
 function Row(props) {
   const { row } = props;
@@ -36,8 +39,8 @@ function Row(props) {
           {row.client.name}
         </TableCell>
         <TableCell align="center">{row.client.industry}</TableCell>
-        <TableCell align="center">{`${row.project.period.from} - ${row.project.period.to}`}</TableCell>
-        <TableCell align="center">{(row.project.techStack)? row.project.techStack.join(", "): ""}</TableCell>
+				<TableCell align="center">{row.client.contact_email}</TableCell>
+        <TableCell align="center">{(row.tech_stack)? row.tech_stack.join(", "): ""}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -51,6 +54,7 @@ function Row(props) {
                   <TableRow>
                     <TableCell>Name</TableCell>
                     <TableCell align='center'>Tech Stack</TableCell>
+										<TableCell align='center'>Area of interest</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -59,8 +63,11 @@ function Row(props) {
                       <TableCell component="th" scope="row">
                         {consultant.name}
                       </TableCell>
-                      <TableCell align='center'>{consultant.techStack.join(", ")}</TableCell>
-                    </TableRow>
+                      <TableCell align='center'>{(consultant.tech_stack)? consultant.tech_stack.join(", "): ""}</TableCell>
+											<TableCell component="th" scope="row" align='center'>
+                        {consultant.areas_of_interest.map(area => (area.name)).join(", ")}
+                      </TableCell>
+										</TableRow>
                   ))}
                 </TableBody>
               </Table>
@@ -72,6 +79,12 @@ function Row(props) {
   );
 }
 export default function ProjectsDashBoard() {
+	const [data, setData] = useState([])
+	useEffect(() => {
+		axios.get(urls.teams)
+		.then(res => setData(res.data))
+		.catch(err => console.error(err))
+	},[])
   return (
 		<SimpleCard>
 			<TableContainer component={Paper}>
@@ -81,13 +94,12 @@ export default function ProjectsDashBoard() {
             <TableCell />
             <TableCell>Client Name</TableCell>
             <TableCell align="center">Industry</TableCell>
-            <TableCell align="center">Period</TableCell>
-						<TableCell align="center">Tech Stack Required</TableCell>
+            <TableCell align="center">email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {currentProjects.map((row) => (
-            <Row key={row.client.code} row={row} />
+          {data.map((row) => (
+							<Row key={row.id} row={row} />
           ))}
         </TableBody>
       </Table>

@@ -28,6 +28,8 @@ import { useNavigate } from "react-router-dom";
 import { currentProjects } from "fake-db/fakeData";
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
+import { urls } from "app/func/InstanceAxios";
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1;
@@ -238,7 +240,9 @@ export default function TableConsultants({ data, setData }) {
 		setSelected([]);
 	};
 	const sendConsultants = () => {
-		currentProjects.push(data);
+		axios.post(urls.teams, {name: data.client.name, client: data.client.id, consultants: selected})
+		.then(res => console.log(res.data))
+		.catch(err => console.error(err))
 		navigate("/dashboard/projects");
 	};
 
@@ -273,7 +277,7 @@ export default function TableConsultants({ data, setData }) {
 		setPage(0);
 	};
 
-	const isSelected = (row) => selected.includes(row);
+	const isSelected = (row) => selected.includes(row.id);
 
 	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
@@ -314,7 +318,7 @@ export default function TableConsultants({ data, setData }) {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row)}
+                    onClick={(event) => handleClick(event, row.id)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
