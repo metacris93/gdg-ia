@@ -45,10 +45,35 @@ class ClientSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TeamSerializer(serializers.ModelSerializer):
-    client = ClientSerializer(read_only=True)
-    consultants = ConsultantSerializer(many=True, read_only=True)
+    client = serializers.PrimaryKeyRelatedField(queryset=Client.objects.all())
+    consultants = serializers.PrimaryKeyRelatedField(many=True, queryset=Consultant.objects.all(), required=False, write_only=True)
 
     class Meta:
         model = Team
         fields = ['id', 'name', 'client', 'consultants']
 
+    def create(self, validated_data):
+        consultants_data = validated_data.pop('consultants', [])
+        team = Team.objects.create(**validated_data)
+        for consultant_data in consultants_data:
+            consultant, created = Consultant.objects.get_or_create(**consultant_data)
+            team.consultants.add(consultant)
+        return team
+
+    def update(self, instance, validated_data):
+        consultants = validated_data.pop('consultants', [])
+        instance.name = validated_data.get('name', instance.name)
+
+        if consultants:
+            instance.consultants.clear()
+            instance.consultants.set(consultants)
+
+        instance.save()
+
+        return instance
+
+    def to_representation(self, instance):
+        self.fields['client'] = ClientSerializer()
+        self.fields['consultants'] = ConsultantSerializer(many=True)
+
+        return super(TeamSerializer, self).to_representation(instance)
