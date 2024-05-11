@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import * as React from 'react';
@@ -67,7 +68,7 @@ const headCells = [
     label: 'Name',
   },
   {
-    id: 'softSkills',
+    id: 'soft_skills',
     numeric: false,
     disablePadding: false,
     label: 'Soft Skills',
@@ -259,7 +260,7 @@ export default function TableConsultants({data, setData}) {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(consultants, getComparator(order, orderBy)).slice(
+      stableSort(data.consultants, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),

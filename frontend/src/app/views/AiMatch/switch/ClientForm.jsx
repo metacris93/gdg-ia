@@ -102,7 +102,7 @@ const ClientForm = ({ setDisplay, data, setData }) => {
   const handleSubmit = async(e) => {
     e.preventDefault()
 		await axios.post(`http://localhost:8001/api/clients/${data.client.id}/matches/`,state)
-		.then(res => {setData({...data, project: [state], consultants: [res.data]})})
+		.then(res => {setData({...data, project: state, consultants: res.data})})
 		.catch(err => {console.log(err)})
 		setDisplay(3)
   };
