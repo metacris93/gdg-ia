@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from consultant_matcher.consultants.models import Consultant, TechStack, SoftSkill, Industry, AreaOfInterest
+from consultant_matcher.consultants.models import Consultant, TechStack, SoftSkill, Industry, AreaOfInterest, \
+    Client, Team
+
 
 class TechStackSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,3 +39,41 @@ class ConsultantSerializer(serializers.ModelSerializer[Consultant]):
         "url": {"view_name": "api:consultant-detail", "lookup_field": "pk"},
     }
 
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = '__all__'
+
+class TeamSerializer(serializers.ModelSerializer):
+    client = serializers.PrimaryKeyRelatedField(queryset=Client.objects.all())
+    consultants = serializers.PrimaryKeyRelatedField(many=True, queryset=Consultant.objects.all(), required=False, write_only=True)
+
+    class Meta:
+        model = Team
+        fields = ['id', 'name', 'client', 'consultants']
+
+    def create(self, validated_data):
+        consultants_data = validated_data.pop('consultants', [])
+        team = Team.objects.create(**validated_data)
+        for consultant_data in consultants_data:
+            consultant, created = Consultant.objects.get_or_create(**consultant_data)
+            team.consultants.add(consultant)
+        return team
+
+    def update(self, instance, validated_data):
+        consultants = validated_data.pop('consultants', [])
+        instance.name = validated_data.get('name', instance.name)
+
+        if consultants:
+            instance.consultants.clear()
+            instance.consultants.set(consultants)
+
+        instance.save()
+
+        return instance
+
+    def to_representation(self, instance):
+        self.fields['client'] = ClientSerializer()
+        self.fields['consultants'] = ConsultantSerializer(many=True)
+
+        return super(TeamSerializer, self).to_representation(instance)
