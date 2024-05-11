@@ -8,11 +8,19 @@ class GenAIGenerator(EmbeddingGenerator):
         genai.configure(api_key=self.api_key)
         self.model = model
 
-    def generate_embedding(self, content, task_type="retrieval_document", title="consultant-filter"):
-        embedding_response = genai.embed_content(
-            model=self.model,
-            content=content,
-            task_type=task_type,
-            title=title
-        )
+    def generate_embedding(self, content, task_type="retrieval_document", title=None):
+        print('title', title)
+        if title:
+            embedding_response = genai.embed_content(
+                model=self.model,
+                content=content,
+                task_type=task_type,
+                title=title
+            )
+        else:
+            embedding_response = genai.embed_content(
+                model=self.model,
+                content=content,
+                task_type=task_type,
+            )
         return embedding_response["embedding"]
