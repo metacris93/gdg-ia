@@ -231,7 +231,7 @@ export const professionals = [
 
 export const currentProjects = [
 	{client: {
-		code: 1,
+		id: 1,
 		description: "Google is a multinational technology company specializing in Internet-related services and products.",
 		name: "Google",
 		industry: "Technology"
@@ -241,12 +241,8 @@ export const currentProjects = [
 			developmentLevel: null,
 			hasPlatform: false,
 			industry: ["Finance"],
-			timeZone: "Central Time Zone (CT) -06:00",
-			techStack: null,
-			period: {
-				from: "2024-05-9",
-				to: "2024-05-11"
-			}
+			techStack: ['Python', 'C#'],
+			description: "fkvp sdfvks gbmsgp vsompgb"
 		},
 		consultants: [
 			{

@@ -8,7 +8,6 @@ import {
 	Box,
 	Card,
 	Autocomplete,
-	Input
 } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useState } from "react";
@@ -56,10 +55,7 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 		techStack: null,
 		developmentLevel: null,
 		industry: null,
-		timeZone: null,
-		period: {
-			from: null, to:null
-		}
+		description: null
 	});
   const handleChangeApp = (_, newValue) => {
 		const array = newValue.map((app) => (app.name))
@@ -88,20 +84,12 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 		setState({...state, hasPlatform: toBoolean})
 		}
   };
-	const handleChangeTimeZone = (_, newValue) => {
-		if(newValue === null) {
-			setState({...state, timeZone: null})
-		}else{
-			const timeZone = `${newValue.name} ${newValue.offset}`
-		setState({...state, timeZone: timeZone})
-		}
-  };
   const handleSubmit = (e) => {
     e.preventDefault()
 		setData({...data, project: {...state}})
 		setDisplay(3)
   };
-
+	console.log({...data, project: {...state}})
   return (
     <Container>
 			<Button variant="text" onClick={() => {setDisplay(1)}}><ArrowBack/></Button>
@@ -130,10 +118,8 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 						id="description"
 						disabled
 						// eslint-disable-next-line react/prop-types
-						value={data.client.description}
+						value={data.client.contact_email}
 						name="description"
-						multiline
-						rows={5}
 					/>
           </Grid>
         </Grid>
@@ -196,22 +182,6 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 							/>
 						</CardSelect>: ""}
 						<Box py="12px" />
-						<CardSelect subtitle={"Time zone:"}>
-							<Autocomplete
-										disablePortal
-										id="time-zone"
-										options={timeZones}
-										onChange={handleChangeTimeZone}
-										getOptionLabel={(option) => `${option.name} ${option.offset}`}
-										renderInput={(params) => (
-											<TextField
-												{...params}
-												fullWidth
-												variant="standard"
-											/>
-										)}
-								/>
-					</CardSelect>
           </Grid>
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
 					<CardSelect subtitle={"What level of development are you looking for?"}>
@@ -252,13 +222,12 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 								/>
 						</CardSelect>
 						<Box py="12px" />
-						<CardSelect subtitle={"Please specify the project start and end dates:"}>
-							<span>From: <Input onInput={(e) => setState({...state, period:{from: e.target.value }})} type="date"></Input></span>
-							<Box py="8px" />
-							<span>To: <Input onInput={(e) => setState({...state, period:{to: e.target.value }})} type="date"></Input></span>
-						</CardSelect>
           </Grid>
         </Grid>
+				<Box py="12px" />
+				<CardSelect subtitle={"Project's description"}>
+					<TextField onChange={(e) => setState({...state, description: e.target.value})} multiline placeholder="Project's description" rows={5}/>
+				</CardSelect>
 				<Box py="12px" />
         <Button color="primary" variant="contained" type="submit">
           <Icon>send</Icon>
@@ -293,25 +262,7 @@ const applicationTypes = [
   }
 ];
 const developmentLevels = [
-	{level: "Junio"},
+	{level: "Junior"},
 	{level: "Mid-Senior"},
 	{level: "Senior"}
 ]
-
-const timeZones = [
-  { name: "Pacific Time Zone (PT)", offset: "-08:00" },
-  { name: "Mountain Time Zone (MT)", offset: "-07:00" },
-  { name: "Central Time Zone (CT)", offset: "-06:00" },
-  { name: "Eastern Time Zone (ET)", offset: "-05:00" },
-  { name: "Alaska Time Zone (AKT)", offset: "-09:00" },
-  { name: "Hawaii-Aleutian Time Zone (HST)", offset: "-10:00" },
-  { name: "Atlantic Time Zone (AST)", offset: "-04:00" },
-  { name: "Greenwich Mean Time (GMT)", offset: "+00:00" },
-  { name: "Central European Time (CET)", offset: "+01:00" },
-  { name: "Eastern European Time (EET)", offset: "+02:00" },
-  { name: "Australian Eastern Time (AEST)", offset: "+10:00" },
-  { name: "Australian Central Time (ACST)", offset: "+09:30" },
-  { name: "Australian Western Time (AWST)", offset: "+08:00" },
-  { name: "Indian Standard Time (IST)", offset: "+05:30" },
-  { name: "Japan Standard Time (JST)", offset: "+09:00" }
-];
