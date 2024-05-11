@@ -34,6 +34,22 @@ class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
 
+class IndustryViewSet(viewsets.ModelViewSet):
+    queryset = Industry.objects.all()
+    serializer_class = IndustrySerializer
+
+    def get_queryset(self):
+        industries = Industry.objects.all()
+        return industries
+
+class TechStackViewSet(viewsets.ModelViewSet):
+    queryset = TechStack.objects.all()
+    serializer_class = TechStackSerializer
+
+    def get_queryset(self):
+        stacks = TechStack.objects.all()
+        return stacks
+
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
