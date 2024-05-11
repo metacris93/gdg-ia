@@ -61,7 +61,6 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-<<<<<<< HEAD
   {
     id: 'name',
     numeric: false,
@@ -75,31 +74,23 @@ const headCells = [
     label: 'Soft Skills',
   },
   {
-    id: 'techStack',
-    numeric: true,
+    id: 'tech_tacks',
+    numeric: false,
     disablePadding: false,
     label: 'Tech Stack',
   },
-=======
 	{
-		id: "name",
-		numeric: false,
-		disablePadding: true,
-		label: "Name",
-	},
+    id: 'area_of_interest',
+    numeric: false,
+    disablePadding: false,
+    label: 'Area of interest',
+  },
 	{
-		id: "softSkills",
-		numeric: false,
-		disablePadding: false,
-		label: "Soft Skills",
-	},
-	{
-		id: "techStack",
-		numeric: true,
-		disablePadding: false,
-		label: "Tech Stack",
-	},
->>>>>>> 51c063b6aa71166bc4392914d2ff8e54ef125775
+    id: 'seniority',
+    numeric: false,
+    disablePadding: false,
+    label: 'Seniority',
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -290,7 +281,6 @@ export default function TableConsultants({ data, setData }) {
 			? Math.max(0, (1 + page) * rowsPerPage - data.consultants.length)
 			: 0;
 
-<<<<<<< HEAD
   const visibleRows = React.useMemo(
     () =>
       stableSort(data.consultants, getComparator(order, orderBy)).slice(
@@ -321,7 +311,6 @@ export default function TableConsultants({ data, setData }) {
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row);
                 const labelId = `enhanced-table-checkbox-${index}`;
-								console.log(row)
                 return (
                   <TableRow
                     hover
@@ -352,8 +341,10 @@ export default function TableConsultants({ data, setData }) {
                       {row.name}
                     </TableCell>
                     <TableCell align="center">{row.industries}</TableCell>
-                    <TableCell align="center">{row.tech_stack}</TableCell>
-                  </TableRow>
+                    <TableCell align="center">{row.tech_stacks}</TableCell>
+										<TableCell align="center">{row.areas_of_interest.map(area => (area.name)).join(", ")}</TableCell>
+										<TableCell align="center">{row.seniority}</TableCell>
+									</TableRow>
                 );
               })}
               {emptyRows > 0 && (
@@ -378,107 +369,6 @@ export default function TableConsultants({ data, setData }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-=======
-	const visibleRows = React.useMemo(
-		() =>
-			stableSort(consultants, getComparator(order, orderBy)).slice(
-				page * rowsPerPage,
-				page * rowsPerPage + rowsPerPage,
-			),
-		[order, orderBy, page, rowsPerPage],
-	);
-
-	const renderStacks = (stacks) => {
-		return stacks.map((stack, index) => (
-			<Span key={index} sx={{ pl: 1 }}>
-				{stack.name}
-			</Span>
-		));
-	};
-
-	return (
-		<Box sx={{ width: "100%" }}>
-			<Paper sx={{ width: "100%", mb: 2 }}>
-				<EnhancedTableToolbar numSelected={selected.length} />
-				<TableContainer>
-					<Table
-						sx={{ minWidth: 750 }}
-						aria-labelledby="tableTitle"
-						size="small"
-					>
-						<EnhancedTableHead
-							numSelected={selected.length}
-							order={order}
-							orderBy={orderBy}
-							onSelectAllClick={handleSelectAllClick}
-							onRequestSort={handleRequestSort}
-							rowCount={consultants.length}
-						/>
-						<TableBody>
-							{visibleRows.map((row, index) => {
-								const isItemSelected = isSelected(row);
-								const labelId = `enhanced-table-checkbox-${index}`;
-								return (
-									<TableRow
-										hover
-										onClick={(event) => handleClick(event, row)}
-										role="checkbox"
-										aria-checked={isItemSelected}
-										tabIndex={-1}
-										key={index}
-										selected={isItemSelected}
-										sx={{ cursor: "pointer" }}
-									>
-										<TableCell padding="checkbox">
-											<Checkbox
-												color="primary"
-												checked={isItemSelected}
-												inputProps={{
-													"aria-labelledby": labelId,
-												}}
-											/>
-										</TableCell>
-										<TableCell
-											component="th"
-											id={labelId}
-											scope="row"
-											padding="none"
-											align="center"
-										>
-											{row.name}
-										</TableCell>
-										<TableCell align="center">
-											{renderStacks(row.soft_skills)}
-										</TableCell>
-										<TableCell align="center">
-											{renderStacks(row.tech_stacks)}
-										</TableCell>
-									</TableRow>
-								);
-							})}
-							{emptyRows > 0 && (
-								<TableRow
-									style={{
-										height: 33 * emptyRows,
-									}}
-								>
-									<TableCell colSpan={6} />
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[5, 10, 25]}
-					component="div"
-					count={data.consultants.length}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
-			</Paper>
->>>>>>> 51c063b6aa71166bc4392914d2ff8e54ef125775
 			<Box py="12px" />
 			<Button color="primary" variant="contained" onClick={sendConsultants}>
 				<Icon>send</Icon>

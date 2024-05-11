@@ -105,7 +105,6 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 		setState({ ...state, techStack: array });
 	};
 
-<<<<<<< HEAD
   const handleSubmit = async(e) => {
     e.preventDefault()
 		await axios.post(`http://localhost:8001/api/clients/${data.client.id}/matches/`,state)
@@ -120,37 +119,6 @@ const ClientForm = ({ setDisplay, data, setData }) => {
 			<Grid container spacing={6}>
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
-=======
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		await axios
-			.post(
-				`http://localhost:8001/api/clients/${data.client.id}/matches/`,
-				state,
-			)
-			.then((res) => {
-				setData({ ...data, project: [state], consultants: res.data });
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-		setDisplay(3);
-	};
-	return (
-		<Container>
-			<Button
-				variant="text"
-				onClick={() => {
-					setDisplay(1);
-				}}
-			>
-				<ArrowBack />
-			</Button>
-			<ValidatorForm onSubmit={handleSubmit} onError={() => null}>
-				<Grid container spacing={6}>
-					<Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-						<TextField
->>>>>>> 51c063b6aa71166bc4392914d2ff8e54ef125775
 							disabled
 							type="text"
 							name="names"
