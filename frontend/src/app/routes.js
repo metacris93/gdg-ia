@@ -17,27 +17,21 @@ const NotFound = Loadable(lazy(() => import("app/views/sessions/NotFound")));
 // const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
 const routes = [
-  {
-    element: (
-        <MatxLayout />
-    ),
-    children: [
-      ...materialRoutes,
-      // dashboard route
-			{ path: "/AIMatch", element: <AiMatch/>},
-			{ path: "/addConsultant", element: <ConsultantForm/>},
-			{ path: "/dashboard/projects", element: <ProjectsDashBoard/>},
-      // { path: "/dashboard/default", element: <Analytics />},
-      // // e-chart route
-      // { path: "/charts/echarts", element: <AppEchart />}
-    ]
-  },
+	{
+		element: <MatxLayout />,
+		children: [
+			...materialRoutes,
+			{ path: "/AIMatch", element: <AiMatch /> },
+			{ path: "/addConsultant", element: <ConsultantForm /> },
+			{ path: "/dashboard/projects", element: <ProjectsDashBoard /> },
+		],
+	},
 
-  // session pages route
-  { path: "/session/404", element: <NotFound /> },
+	// session pages route
+	{ path: "/session/404", element: <NotFound /> },
 
-  { path: "/", element: <Navigate to="dashboard/default" /> },
-  { path: "*", element: <NotFound /> }
+	{ path: "/", element: <Navigate to="AIMatch" /> },
+	{ path: "*", element: <NotFound /> },
 ];
 
 export default routes;

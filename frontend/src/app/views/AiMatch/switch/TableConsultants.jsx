@@ -63,36 +63,36 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Name',
-  },
-  {
-    id: 'soft_skills',
-    numeric: false,
-    disablePadding: false,
-    label: 'Soft Skills',
-  },
-  {
-    id: 'tech_tacks',
-    numeric: false,
-    disablePadding: false,
-    label: 'Tech Stack',
-  },
 	{
-    id: 'area_of_interest',
-    numeric: false,
-    disablePadding: false,
-    label: 'Area of interest',
-  },
+		id: "name",
+		numeric: false,
+		disablePadding: true,
+		label: "Name",
+	},
 	{
-    id: 'seniority',
-    numeric: false,
-    disablePadding: false,
-    label: 'Seniority',
-  },
+		id: "soft_skills",
+		numeric: false,
+		disablePadding: false,
+		label: "Soft Skills",
+	},
+	{
+		id: "tech_tacks",
+		numeric: false,
+		disablePadding: false,
+		label: "Tech Stack",
+	},
+	{
+		id: "area_of_interest",
+		numeric: false,
+		disablePadding: false,
+		label: "Area of interest",
+	},
+	{
+		id: "seniority",
+		numeric: false,
+		disablePadding: false,
+		label: "Seniority",
+	},
 ];
 
 function EnhancedTableHead(props) {
@@ -240,9 +240,14 @@ export default function TableConsultants({ data, setData }) {
 		setSelected([]);
 	};
 	const sendConsultants = () => {
-		axios.post(urls.teams, {name: data.client.name, client: data.client.id, consultants: selected})
-		.then(res => console.log(res.data))
-		.catch(err => console.error(err))
+		axios
+			.post(urls.teams, {
+				name: data.client.name,
+				client: data.client.id,
+				consultants: selected,
+			})
+			.then((res) => console.log(res.data))
+			.catch((err) => console.error(err));
 		navigate("/dashboard/projects");
 	};
 
@@ -285,94 +290,111 @@ export default function TableConsultants({ data, setData }) {
 			? Math.max(0, (1 + page) * rowsPerPage - data.consultants.length)
 			: 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(data.consultants, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage],
-  );
-  return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size="small"
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={consultants.length}
-            />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={index}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-											align='center'
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell align="center">{row.industries}</TableCell>
-                    <TableCell align="center">{row.tech_stacks}</TableCell>
-										<TableCell align="center">{row.areas_of_interest.map(area => (area.name)).join(", ")}</TableCell>
+	const visibleRows = React.useMemo(
+		() =>
+			stableSort(data.consultants, getComparator(order, orderBy)).slice(
+				page * rowsPerPage,
+				page * rowsPerPage + rowsPerPage,
+			),
+		[order, orderBy, page, rowsPerPage],
+	);
+
+	const renderStacks = (stacks) => {
+		return stacks.map((stack, index) => (
+			<Span key={index} sx={{ pl: 1 }}>
+				{stack.name}
+			</Span>
+		));
+	};
+
+	return (
+		<Box sx={{ width: "100%" }}>
+			<Paper sx={{ width: "100%", mb: 2 }}>
+				<EnhancedTableToolbar numSelected={selected.length} />
+				<TableContainer>
+					<Table
+						sx={{ minWidth: 750 }}
+						aria-labelledby="tableTitle"
+						size="small"
+					>
+						<EnhancedTableHead
+							numSelected={selected.length}
+							order={order}
+							orderBy={orderBy}
+							onSelectAllClick={handleSelectAllClick}
+							onRequestSort={handleRequestSort}
+							rowCount={consultants.length}
+						/>
+						<TableBody>
+							{visibleRows.map((row, index) => {
+								const isItemSelected = isSelected(row);
+								const labelId = `enhanced-table-checkbox-${index}`;
+								return (
+									<TableRow
+										hover
+										onClick={(event) => handleClick(event, row.id)}
+										role="checkbox"
+										aria-checked={isItemSelected}
+										tabIndex={-1}
+										key={index}
+										selected={isItemSelected}
+										sx={{ cursor: "pointer" }}
+									>
+										<TableCell padding="checkbox">
+											<Checkbox
+												color="primary"
+												checked={isItemSelected}
+												inputProps={{
+													"aria-labelledby": labelId,
+												}}
+											/>
+										</TableCell>
+										<TableCell
+											component="th"
+											id={labelId}
+											scope="row"
+											padding="none"
+											align="center"
+										>
+											{row.name}
+										</TableCell>
+										<TableCell align="center">
+											{renderStacks(row.industries)}
+										</TableCell>
+										<TableCell align="center">
+											{renderStacks(row.tech_stacks)}
+										</TableCell>
+										<TableCell align="center">
+											{row.areas_of_interest
+												.map((area) => area.name)
+												.join(", ")}
+										</TableCell>
 										<TableCell align="center">{row.seniority}</TableCell>
 									</TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (33) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={data.consultants.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
+								);
+							})}
+							{emptyRows > 0 && (
+								<TableRow
+									style={{
+										height: 33 * emptyRows,
+									}}
+								>
+									<TableCell colSpan={6} />
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<TablePagination
+					rowsPerPageOptions={[5, 10, 25]}
+					component="div"
+					count={data.consultants.length}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onPageChange={handleChangePage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/>
+			</Paper>
 			<Box py="12px" />
 			<Button color="primary" variant="contained" onClick={sendConsultants}>
 				<Icon>send</Icon>
