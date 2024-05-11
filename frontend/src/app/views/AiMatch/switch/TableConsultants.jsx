@@ -22,7 +22,7 @@ import Tooltip from "@mui/material/Tooltip";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { Button, Icon } from "@mui/material";
+import { Button, Icon, TextField } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useNavigate } from "react-router-dom";
 import { currentProjects } from "fake-db/fakeData";
@@ -30,6 +30,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { urls } from "app/func/InstanceAxios";
+import { SimpleCard } from "app/components";
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1;
@@ -223,6 +224,7 @@ export default function TableConsultants({ data, setData }) {
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [consultants, setConsultants] = useState(data.consultants);
+	const [teamName, setTeamName] = useState('')
 
 	const handleRequestSort = (event, property) => {
 		const isAsc = orderBy === property && order === "asc";
@@ -242,7 +244,7 @@ export default function TableConsultants({ data, setData }) {
 	const sendConsultants = () => {
 		axios
 			.post(urls.teams, {
-				name: data.client.name,
+				name: teamName,
 				client: data.client.id,
 				consultants: selected,
 			})
@@ -309,6 +311,9 @@ export default function TableConsultants({ data, setData }) {
 
 	return (
 		<Box sx={{ width: "100%" }}>
+			<SimpleCard title={"Team's Name"} >
+			<TextField size='small' variant='filled' onChange={(e) => setTeamName(e.target.value)}/>
+			</SimpleCard>
 			<Paper sx={{ width: "100%", mb: 2 }}>
 				<EnhancedTableToolbar numSelected={selected.length} />
 				<TableContainer>

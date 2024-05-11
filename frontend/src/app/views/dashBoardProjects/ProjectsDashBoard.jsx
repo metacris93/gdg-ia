@@ -36,7 +36,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.client.name}
+          {row.name}
         </TableCell>
         <TableCell align="center">{row.client.industry}</TableCell>
 				<TableCell align="center">{row.client.contact_email}</TableCell>
