@@ -15,7 +15,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { currentProjects } from 'fake-db/fakeData';
 import { SimpleCard } from 'app/components';
-console.log(currentProjects)
 
 function Row(props) {
   const { row } = props;

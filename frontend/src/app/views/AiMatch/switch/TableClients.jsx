@@ -11,14 +11,16 @@ import { rowsClients } from 'fake-db/fakeData';
 import { TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { Fragment } from 'react';
+
+import axios from 'axios';
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
   { id: 'industry', label: 'Industry', minWidth: 100 },
   {
-    id: 'description',
+    id: 'contact_email',
     label: 'Description',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   }
 ];
@@ -32,6 +34,11 @@ export default function StickyHeadTable({setDisplay, setData}) {
 	const [search, setSearch] = React.useState("")
 	const [clients, setClients] = React.useState(copyRows)
 
+	useEffect(() => {
+		axios.get('http://localhost:8001/api/clients/')
+		.then(res => {setClients(res.data)})
+		.catch(err => {console.log(err)})
+	})
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
