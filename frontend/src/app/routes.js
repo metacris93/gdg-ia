@@ -12,9 +12,9 @@ import ProjectsDashBoard from "./views/dashBoardProjects/ProjectsDashBoard";
 // SESSION PAGES
 const NotFound = Loadable(lazy(() => import("app/views/sessions/NotFound")));
 // E-CHART PAGE
-const AppEchart = Loadable(lazy(() => import("app/views/charts/echarts/AppEchart")));
-// DASHBOARD PAGE
-const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
+// const AppEchart = Loadable(lazy(() => import("app/views/charts/echarts/AppEchart")));
+// // DASHBOARD PAGE
+// const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
 const routes = [
   {
@@ -27,9 +27,9 @@ const routes = [
 			{ path: "/AIMatch", element: <AiMatch/>},
 			{ path: "/addConsultant", element: <ConsultantForm/>},
 			{ path: "/dashboard/projects", element: <ProjectsDashBoard/>},
-      { path: "/dashboard/default", element: <Analytics />},
-      // e-chart route
-      { path: "/charts/echarts", element: <AppEchart />}
+      // { path: "/dashboard/default", element: <Analytics />},
+      // // e-chart route
+      // { path: "/charts/echarts", element: <AppEchart />}
     ]
   },
 

@@ -8,6 +8,7 @@ export const SettingsContext = createContext({
   updateSettings: () => {}
 });
 
+// eslint-disable-next-line react/prop-types
 export default function SettingsProvider({ settings, children }) {
   const [currentSettings, setCurrentSettings] = useState(settings || MatxLayoutSettings);
 

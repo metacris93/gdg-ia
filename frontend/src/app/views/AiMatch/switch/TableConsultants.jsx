@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
@@ -19,12 +21,12 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { professionals } from 'fake-db/fakeData';
 import { Button, Icon} from '@mui/material';
 import { Span } from "app/components/Typography";
 import { useNavigate } from 'react-router-dom';
 import { currentProjects } from 'fake-db/fakeData';
 import { useEffect } from 'react';
+import { useState } from 'react';
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -196,6 +198,7 @@ export default function TableConsultants({data, setData}) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+	const [consultants, setConsultants] = useState(data.consultants)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -204,7 +207,8 @@ export default function TableConsultants({data, setData}) {
 	const navigate = useNavigate()
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = professionals.map((n) => n);
+      // eslint-disable-next-line react/prop-types
+      const newSelected = data.consultants.map((n) => n);
       setSelected(newSelected);
       return;
     }
@@ -251,11 +255,11 @@ export default function TableConsultants({data, setData}) {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - professionals.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.consultants.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(professionals, getComparator(order, orderBy)).slice(
+      stableSort(consultants, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
@@ -277,13 +281,13 @@ export default function TableConsultants({data, setData}) {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={professionals.length}
+              rowCount={consultants.length}
             />
             <TableBody>
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row);
                 const labelId = `enhanced-table-checkbox-${index}`;
-
+								console.log(row)
                 return (
                   <TableRow
                     hover
@@ -291,7 +295,7 @@ export default function TableConsultants({data, setData}) {
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.id}
+                    key={index}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
@@ -313,8 +317,8 @@ export default function TableConsultants({data, setData}) {
                     >
                       {row.name}
                     </TableCell>
-                    <TableCell align="center">{row.softSkills.join(", ")}</TableCell>
-                    <TableCell align="center">{row.techStack.join(", ")}</TableCell>
+                    <TableCell align="center">{row.industries}</TableCell>
+                    <TableCell align="center">{row.tech_stack}</TableCell>
                   </TableRow>
                 );
               })}
@@ -333,7 +337,7 @@ export default function TableConsultants({data, setData}) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={professionals.length}
+          count={data.consultants.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

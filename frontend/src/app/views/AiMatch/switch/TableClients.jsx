@@ -7,15 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { rowsClients } from 'fake-db/fakeData';
 import { TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { Fragment } from 'react';
-
 import axios from 'axios';
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'industry', label: 'Industry', minWidth: 100 },
+  { id: 'name', label: 'Name', minWidth: 170, align:'center' },
+  { id: 'industry', label: 'Industry', minWidth: 100, align:'center' },
   {
     id: 'contact_email',
     label: 'Description',
@@ -25,20 +23,20 @@ const columns = [
   }
 ];
 
-const copyRows = [...rowsClients]
 
 // eslint-disable-next-line react/prop-types
 export default function StickyHeadTable({setDisplay, setData}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [search, setSearch] = React.useState("")
-	const [clients, setClients] = React.useState(copyRows)
+	const [clients, setClients] = React.useState([])
 
 	useEffect(() => {
 		axios.get('http://localhost:8001/api/clients/')
 		.then(res => {setClients(res.data)})
 		.catch(err => {console.log(err)})
-	})
+	},[])
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -50,12 +48,13 @@ export default function StickyHeadTable({setDisplay, setData}) {
 
 	useEffect(() => {
 		if(search.length === 0) {
-			setClients(copyRows)
+			axios.get('http://localhost:8001/api/clients/')
+			.then(res => {setClients(res.data)})
+			.catch(err => {console.log(err)})
 		}else {
-			setClients(copyRows.filter((client) => client.name.toLowerCase().includes(search)))
+			setClients(clients.filter((client) => client.name.toLowerCase().includes(search)))
 		}
 	}, [search])
-
   return (
 		<Fragment>
 			<Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -80,7 +79,7 @@ export default function StickyHeadTable({setDisplay, setData}) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}  onClick={() => {setData({client: row}); setDisplay(2)}}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}  onClick={() => {setData({client: row}); setDisplay(2)}}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
