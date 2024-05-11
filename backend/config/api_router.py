@@ -4,7 +4,7 @@ from rest_framework.routers import SimpleRouter
 from django.urls import path
 
 from consultant_matcher.users.api.views import UserViewSet
-from consultant_matcher.consultants.api.views import ConsultantViewSet, ClientViewSet, TeamViewSet, SeniorityList, IndustryViewSet, TechStackViewSet
+from consultant_matcher.consultants.api.views import ConsultantViewSet, ClientViewSet, TeamViewSet, SeniorityList, IndustryViewSet, TechStackViewSet, AreasOfInterestViewSet
 
 router = DefaultRouter() if settings.DEBUG else SimpleRouter()
 
@@ -12,6 +12,7 @@ router.register("users", UserViewSet)
 router.register("consultants", ConsultantViewSet)
 router.register("industries", IndustryViewSet)
 router.register("stacks", TechStackViewSet)
+router.register("areas", AreasOfInterestViewSet)
 router.register("clients", ClientViewSet)
 router.register("teams", TeamViewSet)
 

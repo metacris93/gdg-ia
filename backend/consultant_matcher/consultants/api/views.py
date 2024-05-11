@@ -50,6 +50,14 @@ class TechStackViewSet(viewsets.ModelViewSet):
         stacks = TechStack.objects.all()
         return stacks
 
+class AreasOfInterestViewSet(viewsets.ModelViewSet):
+    queryset = AreaOfInterest.objects.all()
+    serializer_class = AreaOfInterestSerializer
+
+    def get_queryset(self):
+        areas = AreaOfInterest.objects.all()
+        return areas
+
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
