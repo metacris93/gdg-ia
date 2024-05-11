@@ -276,7 +276,6 @@ export default function TableConsultants({ data, setData }) {
 			),
 		[order, orderBy, page, rowsPerPage],
 	);
-	console.info("selected", selected);
 
 	const renderStacks = (stacks) => {
 		return stacks.map((stack, index) => (
