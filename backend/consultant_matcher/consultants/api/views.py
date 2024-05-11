@@ -7,6 +7,7 @@ from rest_framework.mixins import UpdateModelMixin
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from django.http import JsonResponse
+from rest_framework.views import APIView
 
 from consultant_matcher.consultants.models import Consultant, TechStack, SoftSkill, \
     Industry, AreaOfInterest, ConsultantEmbedding, Client, Team
@@ -44,3 +45,8 @@ class ClientViewSet(viewsets.ModelViewSet):
         ).all()
         serializer = ConsultantSerializer(consultants, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+class SeniorityList(APIView):
+    def get(self, request):
+        seniorities = Consultant.objects.values_list('seniority', flat=True).distinct()
+        return Response(seniorities)
